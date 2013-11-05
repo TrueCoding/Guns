@@ -1,0 +1,7 @@
+main: me.tku.src.Guns
+name: Chat
+version: 1.0
+
+commands:
+  gun:
+    usage: /gun
