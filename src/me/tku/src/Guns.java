@@ -17,6 +17,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -145,15 +147,6 @@ public class Guns extends JavaPlugin implements Listener
 			e.getEntity().setVelocity(e.getEntity().getVelocity().multiply(3));
 		}
 	}
-	
-	/*@EventHandler
-	public void onProjectileHit(ProjectileHitEvent e)
-	{
-		if(e.getEntity() instanceof Snowball)
-		{
-			e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), 10f, false);
-		}
-	}*/
 
 	@EventHandler
 	public void onEntityDamage(EntityDamageByEntityEvent e)
@@ -163,6 +156,34 @@ public class Guns extends JavaPlugin implements Listener
 			e.setDamage(20.0);
 		}
 	}
+	
+	@EventHandler
+	public void onPlayerQuit(PlayerQuitEvent e)
+	{
+		names.remove(e.getPlayer().getName());
+	}
+	
+	@EventHandler
+	public void onPlayerJoin(final PlayerJoinEvent e)
+	{
+		Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable()
+		{
+			public void run()
+			{
+				e.getPlayer().sendMessage(ChatColor.RED + "Want to play with a few guns?");
+				e.getPlayer().sendMessage(ChatColor.RED + "Use the command: /gun shop");
+			}
+		}, 100L);
+	}
+	
+	/*@EventHandler
+	public void onProjectileHit(ProjectileHitEvent e)
+	{
+		if(e.getEntity() instanceof Snowball)
+		{
+			e.getEntity().getWorld().createExplosion(e.getEntity().getLocation(), 10f, false);
+		}
+	}*/
 
 	public void runReloading(final Player p)
 	{
